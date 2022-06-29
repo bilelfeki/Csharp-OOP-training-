@@ -13,7 +13,6 @@ public class BankAccout{
             return balance ;
         } 
     }
-
     private static long number=1000000000;
 
     
@@ -21,6 +20,8 @@ public class BankAccout{
         this.Id= number.ToString() ; 
         number++ ; 
         this.Owner=Owner ; 
+
+        MakeDeposit(Balance,DateTime.Now,"your first deposit") ; 
 
     }
 
@@ -33,5 +34,14 @@ public class BankAccout{
     }
     
     public void MakeWithdrawal(decimal amount, DateTime date, string note){
+        if( amount <=0){
+            throw new ArgumentOutOfRangeException(nameof(amount),"Amount of deposit must be positive");
+        }
+        if(this.Balance< amount){
+            throw new InvalidOperationException(nameof(amount),"your solde is not sufficent") ; 
+        }
+        var Transaction = new Transaction(-amount,date,note) ; 
+        Transactions.Add(Transaction) ; 
+
     }
 }
